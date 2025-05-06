@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Highway Journey Animation</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      background: linear-gradient(skyblue, white);
+    }
+
+    .background {
+  position: absolute;
+  width: 300%;
+  height: 100vh;
+  background: url('back.png') repeat-x;
+  background-size: auto 100%;
+  background-position: bottom;
+  animation: scrollBackground 10s linear forwards;
+}
+
+    @keyframes scrollBackground {
+      0% { left: 0; }
+      100% { left: -200%; }
+    }
+
+    .road {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 120px;
+      background: #444;
+      border-top: 5px dashed #fff;
+    }
+
+    .car {
+      position: absolute;
+      bottom: 125px;
+      left: -200px;
+      width: 150px;
+      transition: transform 0.3s;
+    }
+
+    .start-btn {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 24px;
+      font-size: 18px;
+      background: #f04c4c;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .popup {
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 15px 25px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid #555;
+      border-radius: 12px;
+      font-size: 18px;
+      display: none;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+  <button class="start-btn" onclick="startJourney()">Start Journey</button>
+  <div class="popup" id="popup"></div>
+
+  <div class="background" id="bg"></div>
+  <img src="caro.png" class="car" id="car" />
+  <div class="road"></div>
+
+  <audio id="tollSound" src="cash-register.mp3"></audio>
+<audio id="journeySound" src="success.mp3"></audio>
+
+
+  <script>
+    const car = document.getElementById('car');
+    const bg = document.getElementById('bg');
+    const popup = document.getElementById('popup');
+    const startBtn = document.querySelector('.start-btn');
+    const tollSound = document.getElementById('tollSound');
+    const journeySound = document.getElementById('journeySound');
+
+    function startJourney() {
+      startBtn.style.display = 'none';
+      car.style.transition = 'left 10s linear';
+      car.style.left = '100vw';
+      bg.style.animationPlayState = 'running';
+
+      setTimeout(() => {
+        popup.innerText = '💰 Toll Amount Deducted';
+        popup.style.display = 'block';
+        tollSound.play();
+        setTimeout(() => popup.style.display = 'none', 2000);
+      }, 3500);
+
+      setTimeout(() => {
+        popup.innerText = '🛣️ Journey Continues...';
+        popup.style.display = 'block';
+        journeySound.play();
+        setTimeout(() => popup.style.display = 'none', 2000);
+      }, 9000);
+    }
+  </script>
+</body>
+</html>
